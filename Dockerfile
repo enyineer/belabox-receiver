@@ -91,7 +91,7 @@ RUN set -xe; \
     ldconfig; \
     chmod 755 /usr/local/bin/logprefix;
 
-ARG NOALBS_VERSION=v2.7.3
+ARG NOALBS_VERSION=v2.11.2
 RUN set -xe; \
     git clone https://github.com/715209/nginx-obs-automatic-low-bitrate-switching /app; \
     cd /app; \
