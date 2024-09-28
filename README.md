@@ -12,7 +12,7 @@ It requires the following ports to be published:
     8282/8282/udp
 
 Modify everything in bold below, then start with:
-docker run -d --name belabox-receiver -p 5000:5000/udp -p 8181:8181/tcp -p 8282:8282/udp -v <path-to-noalbs-config.json>:/app/config.json kezzkezz/belabox-receiver:2.7.3
+docker run -d --name belabox-receiver -p 5000:5000/udp -p 8181:8181/tcp -p 8282:8282/udp -v <path-to-noalbs-config.json>:/app/config.json kezzkezz/belabox-receiver:2.11.2
 
     Configure SRT receiver and SRT port within belabox to point to the docker container's IP address (or a port-forward on your router).
     Within Belabox, set "live/stream/belabox" as SRT streamid.
