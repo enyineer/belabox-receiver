@@ -93,6 +93,15 @@ You can find your public Statistics-URL at http://your-public-container-ip:8181/
 $ ./run.sh
 ```
 
+# Updating
+
+If a new version is released in this repository, make sure to run the `build-nocache.sh` script once after your `git pull` / download of the ZIP file:
+
+```sh
+$ chmod +x build-nocache.sh
+$ ./build-nocache.sh
+```
+
 # Credit
 
 All Credit to rmoriz for creating the now outdated noalbs-belabox-receiver package https://github.com/rmoriz/bbox-receiver/tree/noalbs2

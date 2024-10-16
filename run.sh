@@ -1,10 +1,12 @@
 #!/bin/bash
 
-[ ! -f $PWD/config.json ] && echo "config.json missing! (see Configuration section of README)" && exit 1
-[ ! -f $PWD/.env ] && echo ".env missing! (see Configuration section of README)" && exit 1
+chmod +x check-files.sh
+./check-files.sh
 
 docker compose build
 docker compose up -d
+
+echo "Successfully started your belabox-receiver Server, if you encounter any issues, please check the 'logs' folder."
 
 # SLS stats page:
 # http://localhost:8181/stats
