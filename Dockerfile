@@ -101,4 +101,4 @@ RUN set -xe; \
 
 EXPOSE 5000/udp 8181/tcp 8282/udp
 
-CMD ["/usr/bin/supervisord"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
