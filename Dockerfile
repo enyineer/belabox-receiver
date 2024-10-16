@@ -14,7 +14,7 @@ RUN set -xe; \
     git \
     libssl-dev \
     libz-dev \
-    tcl \
+    tcl; \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # belabox patched srt
@@ -77,7 +77,7 @@ RUN set -xe; \
     nodejs \
     npm \
     procps \
-    supervisor \
+    supervisor; \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /usr/local/lib /usr/local/lib
