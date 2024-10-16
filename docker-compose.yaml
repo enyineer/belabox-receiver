@@ -1,0 +1,14 @@
+name: belabox-receiver
+
+services:
+  belabox-receiver:
+    build: .
+    ports:
+      - "5000:5000/udp"
+      - "8181:8181/tcp"
+      - "8282:8282/udp"
+    volumes:
+      - "${PWD}/config.json:/app/config.json:ro"
+      - "${PWD}/.env:/app/.env:ro"
+      # Also mount logs as volume so they're easier to read for users
+      - "${PWD}/logs:/var/log"
