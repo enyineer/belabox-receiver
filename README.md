@@ -55,7 +55,13 @@ Make sure to set your streamServers Config to the following:
 #### Connecting NOALBS to OBS
 If you want your belabox-receiver server to connect to your local OBS instance, do the following:
 
-- Port-Forward your OBS's Websocket-Port `4455/tcp`
+Enable your OBS Websocket-Server:
+- Click on the Tools menu
+- Click on obs-websocket Settings
+- Enable authentication and set your own password
+
+Setup NOALBS:
+- Port-Forward your OBS's Websocket-Port, per default `4455:4455/tcp`
 - Make sure to configure NOALBS to this port-forwarded port, eg:
 ```json
   "software": {
