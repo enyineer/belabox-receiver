@@ -87,6 +87,23 @@ If you want your belabox-receiver server to connect to your local OBS instance, 
 
 You can find your public Statistics-URL at http://your-public-container-ip:8181/stats
 
+## Security
+
+Please keep in mind that using the default Stream-ID "live/stream/belabox" and forwarding these ports to the internet is a potential security risk. Port-Scanners that find your SRT-Server can potential try out this default and hijack your stream.
+
+We have added a utility-Script which helps you to generate a hard-to-guess Stream-ID. To use it, just run:
+
+```sh
+$ chmod +x generate-streamid.sh
+$ ./generate-streamid.sh
+```
+
+This script will then give you your SRT(LA) Connection-string for your source (eg. Moblin) and your target (eg. OBS).
+
+It will also give you a preconfigured "streamServers" configuration object for your NOALBS config.json file which you can just copy.
+
+You can always regenerate this streamid to get a new "credential". However, also make sure then to reconfigure your source, target and NOALBS Config.
+
 ## Start your Belabox-Receiver Server
 
 ```sh
