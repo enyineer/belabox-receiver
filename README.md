@@ -1,3 +1,4 @@
+> [!NOTE]
 > This is an experimental image and is not optimized yet.
 
 # What you get
@@ -15,27 +16,22 @@
 $ git clone https://github.com/kezzkezzkezz/belabox-receiver.git
 ```
 
-If you don't have Git installed on your machine, you can download this repository directly from [here](https://github.com/kezzkezzkezz/belabox-receiver/archive/refs/heads/main.zip).
+> [!TIP]
+> If you don't have Git installed on your machine, you can download this repository directly from [here](https://github.com/kezzkezzkezz/belabox-receiver/archive/refs/heads/main.zip).
 
-## Firewall / Port Forwarding
-Open the following ports in your firewall / router to make belabox-receiver available from outside of your private network:
-
-- 5000:5000/udp
-- 8181/8181/tcp (Optional, if you want your srt stats to be published)
-- 8282/8282/udp
-
-## Make the run script executable
+## Make the scripts executable
 
 > Only needs to be done after initial checkout
 
 ```sh
-$ chmod +x run.sh
+$ chmod +x run.sh generate-streamid.sh build-nocache.sh
 ```
 
 ## Configuration
 
 ### NOALBS
-- Configure NOALBS according to it's [Configuration Guide](https://github.com/NOALBS/nginx-obs-automatic-low-bitrate-switching?tab=readme-ov-file#configure-noalbs) and put your `config.json` and `.env` files into this folder
+> [!NOTE]
+> Configure NOALBS according to it's [Configuration Guide](https://github.com/NOALBS/nginx-obs-automatic-low-bitrate-switching?tab=readme-ov-file#configure-noalbs) and put your `config.json` and `.env` files into the checked out folder
 
 Make sure to set your streamServers Config to the following:
 
@@ -56,7 +52,7 @@ Make sure to set your streamServers Config to the following:
     ]
 ```
 
-#### Connecting to OBS
+#### Connecting NOALBS to OBS
 If you want your belabox-receiver server to connect to your local OBS instance, do the following:
 
 - Port-Forward your OBS's Websocket-Port `4455/tcp`
@@ -76,33 +72,54 @@ If you want your belabox-receiver server to connect to your local OBS instance, 
   },
 ```
 
-> For this example to work, make sure you have created the configured Scenes (eg. "Starting") inside a scene collection named "twitch_scenes"
+> [!TIP]
+> For this example to work, make sure you have created the configured NOALBS Scenes (eg. "Starting") inside a OBS scene collection named "twitch_scenes"
+>
+> See [this article](https://obsproject.com/kb/scene-collections) for more info about Scene Collections in OBS
 
-### BELABOX
-- Configure SRT receiver and SRT port within belabox to point to the docker container's IP address (or a port-forward on your firewall / router).
+### Sender (BELABOX / Moblin / IRL Pro)
+
+#### Belabox
+- Configure SRT receiver and SRT port within belabox to point to the docker container's public IP address
 - Within Belabox, set "live/stream/belabox" as SRT streamid.
 
-### OBS / VLC
-- To retrieve the SRT-Stream (via OBS, VLC etc.), open the following URL: srt://your-public-container-ip:8282/?streamid=play/stream/belabox
+#### Moblin / IRL Pro
+- Configure the following SRTLA-Connection to your belabox-receiver server: `srtla://<your-container-public-ip>:5000?streamid=live/stream/belabox`
 
-You can find your public Statistics-URL at http://your-public-container-ip:8181/stats
+### Receiver (OBS / VLC)
+- To retrieve the SRT-Stream (via OBS, VLC etc.), open the following URL: `srt://<your-container-public-ip>:8282/?streamid=play/stream/belabox`
+
+### Stats
+You can find your public Statistics-URL at `http://<your-container-public-ip>:8181/stats`
 
 ## Security
-
-Please keep in mind that using the default Stream-ID "live/stream/belabox" and forwarding these ports to the internet is a potential security risk. Port-Scanners that find your SRT-Server can potential try out this default and hijack your stream.
+> [!CAUTION]
+> Please keep in mind that using the default Stream-ID `live/stream/belabox` and forwarding your ports to the internet is a potential security risk. Port-Scanners that find your SRT-Server can potentially try out this default and hijack your stream.
 
 We have added a utility-Script which helps you to generate a hard-to-guess Stream-ID. To use it, just run:
 
 ```sh
-$ chmod +x generate-streamid.sh
 $ ./generate-streamid.sh
 ```
 
-This script will then give you your SRT(LA) Connection-string for your source (eg. Moblin) and your target (eg. OBS).
+This script will then give you your SRT(LA) Connection-string for your sender (eg. Moblin / IRL Pro / Belabox) and your receiver (eg. OBS).
 
 It will also give you a preconfigured "streamServers" configuration object for your NOALBS config.json file which you can just copy.
 
 You can always regenerate this streamid to get a new "credential". However, also make sure then to reconfigure your source, target and NOALBS Config.
+
+## Firewall / Port Forwarding
+Open the following ports in your firewall / router to make belabox-receiver available from outside of your private network:
+
+- 5000:5000/udp
+- 8282:8282/udp
+
+> [!CAUTION]
+> Port-forwarding `8181:8181/tcp` is optional.
+> 
+> This is a security risk as it exposes your confidential Stream-ID to the internet!
+>
+> If you're running this container on a public VPS, make sure to enable a firewall (eg. `ufw`) to block public access to this port and only allow the ports mentioned above.
 
 ## Start your Belabox-Receiver Server
 
@@ -115,7 +132,6 @@ $ ./run.sh
 If a new version is released in this repository, make sure to run the `build-nocache.sh` script once after your `git pull` / download of the ZIP file:
 
 ```sh
-$ chmod +x build-nocache.sh
 $ ./build-nocache.sh
 ```
 
