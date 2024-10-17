@@ -94,10 +94,15 @@ Setup NOALBS:
 - Within Belabox, set "live/stream/belabox" as SRT streamid.
 
 #### Moblin / IRL Pro
-- Configure the following SRTLA-Connection to your belabox-receiver server: `srtla://<your-container-public-ip>:5000?streamid=live/stream/belabox`
+Configure the following SRTLA-Connection to your belabox-receiver server: `srtla://<your-container-public-ip>:5000?streamid=live/stream/belabox`
 
 ### Receiver (OBS / VLC)
-- To retrieve the SRT-Stream (via OBS, VLC etc.), open the following URL: `srt://<your-container-public-ip>:8282/?streamid=play/stream/belabox`
+To retrieve the SRT-Stream (via OBS, VLC etc.), use the following SRT-URL: `srt://<your-container-public-ip>:8282/?streamid=play/stream/belabox`
+
+> [!TIP]
+> In OBS, add a `Media Source` to your scenes and configure it accordingly
+>
+> In your Media Source, unset `Local File` and then paste the SRT-URL into the `Input`-Field
 
 ### Stats
 You can find your public Statistics-URL at `http://<your-container-public-ip>:8181/stats`
@@ -114,9 +119,9 @@ $ ./generate-streamid.sh
 
 This script will then give you your SRT(LA) Connection-string for your sender (eg. Moblin / IRL Pro / Belabox) and your receiver (eg. OBS).
 
-It will also give you a preconfigured "streamServers" configuration object for your NOALBS config.json file which you can just copy.
+It will also give you a preconfigured "streamServers" configuration object for your NOALBS `config.json` file which you can just copy.
 
-You can always regenerate this streamid to get a new "credential". However, also make sure then to reconfigure your source, target and NOALBS Config.
+You can always regenerate this streamid to get a new "credential". However, also make sure to reconfigure your sender, receiver and NOALBS Config in this case.
 
 ## Firewall / Port Forwarding
 Open the following ports in your firewall / router to make belabox-receiver available from outside of your private network:
